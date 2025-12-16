@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineRate | Минималистичная платформа киноманов</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-adaptive-slider/1.2.0/simple-adaptive-slider.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --gray: #2a2a2a;
+            --light-gray: #3a3a3a;
+            --white: #f0f0f0;
+            --accent: #4a9eff;
+            --accent-dark: #2a5fa3;
+            --text-secondary: #b0b0b0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--light-gray);
+            color: var(--text-secondary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--light-gray);
+            color: var(--white);
+        }
+        
+        header {
+            background-color: var(--dark-gray);
+            padding: 20px 0;
+            border-bottom: 1px solid var(--light-gray);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.8rem;
+            color: var(--white);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            font-weight: 500;
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            padding: 5px 0;
+            cursor: pointer;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .main-page {
+            flex: 1;
+        }
+        
+        .top-movies {
+            padding: 80px 0;
+            background: var(--black);
+        }
+        
+        .section-title {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 2rem;
+            color: var(--white);
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            font-weight: 600;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+        
+        .movie-card {
+            background: var(--dark-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid var(--light-gray);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .movie-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .movie-img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+        }
+        
+        .movie-info {
+            padding: 20px;
+            background: var(--dark-gray);
+        }
+        
+        .movie-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--white);
+            font-weight: 600;
+        }
+        
+        .movie-info p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .rating i {
+            color: #ffc107;
+        }
+        
+        .series-section {
+            padding: 80px 0;
+            background: var(--dark-gray);
+            border-top: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .series-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .series-card {
+            background: var(--black);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .series-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        
+        .series-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .series-info {
+            padding: 25px;
+        }
+        
+        .series-info h3 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .series-info p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        .directors {
+            padding: 80px 0;
+            background: var(--black);
+        }
+        
+        .directors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        
+        .director-card {
+            background: var(--dark-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .director-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        
+        .director-header {
+            display: flex;
+            padding: 25px;
+            background: var(--dark-gray);
+            border-bottom: 1px solid var(--light-gray);
+            align-items: center;
+        }
+        
+        .director-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+            margin-right: 20px;
+        }
+        
+        .director-info h3 {
+            font-family: 'Roboto Mono', monospace;
+            color: var(--white);
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .director-info p {
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+        
+        .director-filmography {
+            padding: 25px;
+        }
+        
+        .director-filmography h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--white);
+            font-weight: 600;
+        }
+        
+        .film-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .film-tag {
+            background: var(--light-gray);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--gray);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .film-tag:hover {
+            background: var(--accent);
+            color: var(--white);
+        }
+        
+        .reviews-slider {
+            padding: 80px 0;
+            background: var(--dark-gray);
+            border-top: 1px solid var(--light-gray);
+            position: relative;
+        }
+        
+        .reviews-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .reviews-track {
+            display: flex;
+            gap: 30px;
+            transition: transform 0.5s ease;
+            padding: 10px 0;
+        }
+        
+        .review-card {
+            flex: 0 0 calc(33.333% - 20px);
+            background: var(--black);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+            min-width: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .review-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        .review-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 30px;
+            color: var(--white);
+            line-height: 1.8;
+        }
+        
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+        
+        .author-info h4 {
+            color: var(--white);
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .author-info p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-gray);
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .slider-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .slider-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: translateY(-50%);
+        }
+        
+        .slider-btn:disabled:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-50%);
+        }
+        
+        #prevBtn {
+            left: 10px;
+        }
+        
+        #nextBtn {
+            right: 10px;
+        }
+        
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--gray);
+            border: 1px solid var(--light-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-dot.active {
+            background-color: var(--accent);
+            transform: scale(1.2);
+        }
+        
+        footer {
+            background-color: var(--dark-gray);
+            padding: 50px 0 25px;
+            border-top: 1px solid var(--light-gray);
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h4 {
+            font-family: 'Roboto Mono', monospace;
+            color: var(--white);
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--light-gray);
+            border-radius: 50%;
+            color: var(--white);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid var(--light-gray);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .movie-page {
+            display: none;
+            padding: 60px 0;
+            flex: 1;
+        }
+        
+        .movie-page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            background: var(--dark-gray);
+            cursor: pointer;
+        }
+        
+        .back-btn:hover {
+            background: var(--light-gray);
+        }
+        
+        .movie-header {
+            display: flex;
+            gap: 50px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            background: var(--dark-gray);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .movie-poster {
+            flex: 0 0 350px;
+        }
+        
+        .movie-poster img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .movie-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .movie-info h1 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        .movie-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .meta-item {
+            background: var(--light-gray);
+            padding: 10px 20px;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .movie-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+        
+        .movie-description p {
+            margin-bottom: 20px;
+        }
+        
+        .movie-review {
+            background: var(--dark-gray);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+            margin-top: 50px;
+        }
+        
+        .movie-review h2 {
+            font-family: 'Roboto Mono', monospace;
+            color: var(--white);
+            margin-bottom: 40px;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .single-review-item {
+            padding: 30px;
+            background: var(--black);
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .review-author {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--white);
+        }
+        
+        .review-rating {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .review-content {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-style: italic;
+        }
+        
+        .error-page {
+            display: none;
+            padding: 100px 0;
+            text-align: center;
+            flex: 1;
+            background: var(--black);
+        }
+        
+        .error-page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .error-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px;
+            background: var(--dark-gray);
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .error-code {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 6rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .error-title {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .error-message {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+        
+        .error-actions .btn {
+            min-width: 180px;
+        }
+        
+        .registration-page {
+            display: none;
+            padding: 80px 0;
+            flex: 1;
+            background: var(--black);
+        }
+        
+        .registration-page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .registration-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .registration-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .registration-header h1 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .registration-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        
+        .registration-form {
+            background: var(--dark-gray);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .registration-form h2 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--black);
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .checkbox-group input {
+            width: 20px;
+            height: 20px;
+            margin-top: 3px;
+        }
+        
+        .checkbox-group label {
+            flex: 1;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .checkbox-group a {
+            color: var(--accent);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        .form-submit {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .form-note {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .form-note a {
+            color: var(--accent);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 992px) {
+            .movie-header {
+                flex-direction: column;
+            }
+            
+            .movie-poster {
+                flex: 0 0 auto;
+                text-align: center;
+            }
+            
+            .movie-poster img {
+                max-width: 350px;
+            }
+            
+            .review-card {
+                flex: 0 0 calc(50% - 15px);
+            }
+            
+            .slider-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            #prevBtn {
+                left: 5px;
+            }
+            
+            #nextBtn {
+                right: 5px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .directors-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .movie-info h1 {
+                font-size: 2rem;
+            }
+            
+            .error-code {
+                font-size: 5rem;
+            }
+            
+            .error-title {
+                font-size: 1.8rem;
+            }
+            
+            .registration-header h1 {
+                font-size: 2rem;
+            }
+            
+            .registration-header p {
+                font-size: 1.1rem;
+            }
+            
+            .review-card {
+                flex: 0 0 100%;
+            }
+            
+            .slider-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            
+            #prevBtn {
+                left: 0;
+            }
+            
+            #nextBtn {
+                right: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.6rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .movies-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .director-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .director-photo {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .error-code {
+                font-size: 4rem;
+            }
+            
+            .error-content {
+                padding: 40px 20px;
+            }
+            
+            .registration-form {
+                padding: 25px;
+            }
+            
+            .review-card {
+                padding: 25px;
+            }
+            
+            .review-author {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .author-avatar {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .slider-btn {
+                display: none; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+                CineRate
+            </div>
+            <ul class="nav-links">
+                <li><a onclick="showMainPage()">Главная</a></li>
+                <li><a onclick="showMainPage()">Фильмы</a></li>
+                <li><a onclick="showMainPage()">Сериалы</a></li>
+                <li><a onclick="showMainPage()">Рейтинги</a></li>
+                <li><a onclick="showRegistrationPage()" class="btn btn-secondary" style="padding: 8px 20px; font-size: 0.95rem;">
+                    <i class="fas fa-user-plus"></i> Регистрация
+                </a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div id="mainPage" class="main-page">
+        <section class="top-movies">
+            <div class="container">
+                <h2 class="section-title">Топ 5 лучших фильмов</h2>
+                <div class="movies-grid">
+                    <div class="movie-card" onclick="showMoviePage('interstellar')">
+                        <img src="https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg" alt="Интерстеллар" class="movie-img">
+                        <div class="movie-info">
+                            <h3>Интерстеллар</h3>
+                            <p>Кристофер Нолан, 2014</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>8.6/10</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="movie-card" onclick="showMoviePage('intouchables')">
+                        <img src="https://m.media-amazon.com/images/M/MV5BMTYxNDA3MDQwNl5BMl5BanBnXkFtZTcwNTU4Mzc1Nw@@._V1_.jpg" alt="1+1" class="movie-img">
+                        <div class="movie-info">
+                            <h3>1+1</h3>
+                            <p>Оливье Накаш, 2011</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>8.5/10</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="movie-card" onclick="showMoviePage('wolf')">
+                        <img src="https://m.media-amazon.com/images/M/MV5BMjIxMjgxNTk0MF5BMl5BanBnXkFtZTgwNjIyOTg2MDE@._V1_.jpg" alt="Волк с Уолл Стрит" class="movie-img">
+                        <div class="movie-info">
+                            <h3>Волк с Уолл Стрит</h3>
+                            <p>Мартин Скорсезе, 2013</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>8.2/10</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="movie-card" onclick="showMoviePage('taxi')">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvEPxQK20SgQob0E59_iaHrTktSQADrqAqzg&s" alt="Такси" class="movie-img">
+                        <div class="movie-info">
+                            <h3>Такси</h3>
+                            <p>Жерар Пирес, 1998</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>7.0/10</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="movie-card" onclick="showMoviePage('hobbit')">
+                        <img src="https://m.media-amazon.com/images/M/MV5BMTcwNTE4MTUxMl5BMl5BanBnXkFtZTcwMDIyODM4OA@@._V1_.jpg" alt="Хоббит" class="movie-img">
+                        <div class="movie-info">
+                            <h3>Хоббит</h3>
+                            <p>Питер Джексон, 2012</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>7.8/10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="series-section">
+            <div class="container">
+                <h2 class="section-title">Лучшие сериалы за неделю</h2>
+                <div class="series-grid">
+                    <div class="series-card">
+                        <img src="https://m.media-amazon.com/images/M/MV5BN2IzYzBiOTQtNGZmMi00NDI5LTgxMzMtN2EzZjA1NjhlOGMxXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg" alt="Игра Престолов" class="series-img">
+                        <div class="series-info">
+                            <h3>Игра Престолов</h3>
+                            <p>Эпическая фэнтези-сага о борьбе за Железный трон Вестероса. 8 сезонов интриг, предательств и великих битв.</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>9.2/10 (IMDb)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="series-card">
+                        <img src="https://m.media-amazon.com/images/M/MV5BZjRjOTFkOTktZWUzMi00YzMyLThkMmYtMjEwNmQyNzliYTNmXkEyXkFqcGdeQXVyNzQ1ODk3MTQ@._V1_.jpg" alt="Рик и Морти" class="series-img">
+                        <div class="series-info">
+                            <h3>Рик и Морти</h3>
+                            <p>Безумные приключения гениального ученого и его внука по параллельным вселенным. Анимационный сериал для взрослых.</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>9.1/10 (IMDb)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="series-card">
+                        <img src="https://static.hdrezka.ac/i/2025/3/22/xb1df896eea0eer71i18x.jpg" alt="Во все тяжкие" class="series-img">
+                        <div class="series-info">
+                            <h3>Во все тяжкие</h3>
+                            <p>Учитель химии становится наркобароном. История превращения Уолтера Уайта в легендарного Хайзенберга.</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>9.5/10 (IMDb)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="directors">
+            <div class="container">
+                <h2 class="section-title">Великие режиссеры</h2>
+                <div class="directors-grid">
+                    <div class="director-card">
+                        <div class="director-header">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Quentin_Tarantino_by_Gage_Skidmore.jpg" alt="Квентин Тарантино" class="director-photo">
+                            <div class="director-info">
+                                <h3>Квентин Тарантино</h3>
+                                <p>Родился: 27 марта 1963</p>
+                                <p>Стиль: Нелинейное повествование</p>
+                            </div>
+                        </div>
+                        <div class="director-filmography">
+                            <h4>Фильмография:</h4>
+                            <div class="film-list">
+                                <span class="film-tag">Криминальное чтиво (1994)</span>
+                                <span class="film-tag">Бесславные ублюдки (2009)</span>
+                                <span class="film-tag">Джанго освобожденный (2012)</span>
+                                <span class="film-tag">Однажды в Голливуде (2019)</span>
+                                <span class="film-tag">Убить Билла (2003-2004)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="director-card">
+                        <div class="director-header">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Martin_Scorsese_Berlinale_2010_%28cropped2%29.jpg" alt="Мартин Скорсезе" class="director-photo">
+                            <div class="director-info">
+                                <h3>Мартин Скорсезе</h3>
+                                <p>Родился: 17 ноября 1942</p>
+                                <p>Стиль: Криминальные драмы</p>
+                            </div>
+                        </div>
+                        <div class="director-filmography">
+                            <h4>Фильмография:</h4>
+                            <div class="film-list">
+                                <span class="film-tag">Таксист (1976)</span>
+                                <span class="film-tag">Славные парни (1990)</span>
+                                <span class="film-tag">Волк с Уолл Стрит (2013)</span>
+                                <span class="film-tag">Отступники (2006)</span>
+                                <span class="film-tag">Остров проклятых (2010)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="director-card">
+                        <div class="director-header">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Christopher_Nolan_Cannes_2018.jpg" alt="Кристофер Нолан" class="director-photo">
+                            <div class="director-info">
+                                <h3>Кристофер Нолан</h3>
+                                <p>Родился: 30 июля 1970</p>
+                                <p>Стиль: Научная фантастика</p>
+                            </div>
+                        </div>
+                        <div class="director-filmography">
+                            <h4>Фильмография:</h4>
+                            <div class="film-list">
+                                <span class="film-tag">Начало (2010)</span>
+                                <span class="film-tag">Интерстеллар (2014)</span>
+                                <span class="film-tag">Темный рыцарь (2008)</span>
+                                <span class="film-tag">Дюнкерк (2017)</span>
+                                <span class="film-tag">Помни (2000)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="director-card">
+                        <div class="director-header">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/James_Cameron_by_Gage_Skidmore.jpg" alt="Джеймс Кэмерон" class="director-photo">
+                            <div class="director-info">
+                                <h3>Джеймс Кэмерон</h3>
+                                <p>Родился: 16 августа 1954</p>
+                                <p>Стиль: Эпические масштабы</p>
+                            </div>
+                        </div>
+                        <div class="director-filmography">
+                            <h4>Фильмография:</h4>
+                            <div class="film-list">
+                                <span class="film-tag">Титаник (1997)</span>
+                                <span class="film-tag">Аватар (2009)</span>
+                                <span class="film-tag">Терминатор 2 (1991)</span>
+                                <span class="film-tag">Чужие (1986)</span>
+                                <span class="film-tag">Бездна (1989)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="director-card">
+                        <div class="director-header">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNpVksZPuL3xoWuMbNB1NmUVgqXykWMW2S9w&s" alt="Дэвид Финчер" class="director-photo">
+                            <div class="director-info">
+                                <h3>Дэвид Финчер</h3>
+                                <p>Родился: 28 августа 1962</p>
+                                <p>Стиль: Тёмные триллеры</p>
+                            </div>
+                        </div>
+                        <div class="director-filmography">
+                            <h4>Фильмография:</h4>
+                            <div class="film-list">
+                                <span class="film-tag">Бойцовский клуб (1999)</span>
+                                <span class="film-tag">Семь (1995)</span>
+                                <span class="film-tag">Социальная сеть (2010)</span>
+                                <span class="film-tag">Зодиак (2007)</span>
+                                <span class="film-tag">Исчезнувшая (2014)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="reviews-slider">
+            <div class="container">
+                <h2 class="section-title">Отзывы зрителей</h2>
+                <div class="reviews-container">
+                    <button class="slider-btn" id="prevBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    
+                    <button class="slider-btn" id="nextBtn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <div class="reviews-track" id="reviewsTrack">
+                        <div class="review-card">
+                            <p class="review-text">Фильмы Тарантино — это отдельная вселенная. Его диалоги завораживают, а сцены насилия превращаются в искусство. Криминальное чтиво изменило мое представление о кино!</p>
+                            <div class="review-author">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Алексей" class="author-avatar">
+                                <div class="author-info">
+                                    <h4>Алексей Петров</h4>
+                                    <p>Киноман со стажем</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="review-card">
+                            <p class="review-text">Нолан — гений современного кино. Интерстеллар не просто фильм, это философское путешествие. Каждый раз пересматриваю и нахожу новые детали.</p>
+                            <div class="review-author">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b786d4d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Мария" class="author-avatar">
+                                <div class="author-info">
+                                    <h4>Мария Смирнова</h4>
+                                    <p>Фанатка научной фантастики</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="review-card">
+                            <p class="review-text">Скорсезе показывает криминальный мир как никто другой. Его фильмы — это не просто истории о преступниках, это глубокие исследования человеческой психологии.</p>
+                            <div class="review-author">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Дмитрий" class="author-avatar">
+                                <div class="author-info">
+                                    <h4>Дмитрий Иванов</h4>
+                                    <p>Критик</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="review-card">
+                            <p class="review-text">1+1 — это тот редкий фильм, который заставляет смеяться и плакать одновременно. История дружбы, которая меняет жизни двух совершенно разных людей.</p>
+                            <div class="review-author">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Екатерина" class="author-avatar">
+                                <div class="author-info">
+                                    <h4>Екатерина Волкова</h4>
+                                    <p>Киноэнтузиаст</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="review-card">
+                            <p class="review-text">Волк с Уолл Стрит — энергия фильма зашкаливает. Три часа пролетают незаметно. Блестящая сатира на американскую мечту и жадность.</p>
+                            <div class="review-author">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Артем" class="author-avatar">
+                                <div class="author-info">
+                                    <h4>Артем Лебедев</h4>
+                                    <p>Финансист</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="review-card">
+                            <p class="review-text">Такси — идеальный фильм для поднятия настроения! Забавные ситуации и безумные гонки. Французский юмор в лучшем его проявлении.</p>
+                            <div class="review-author">
+                                <img src="https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Михаил" class="author-avatar">
+                                <div class="author-info">
+                                    <h4>Михаил Романов</h4>
+                                    <p>Любитель комедий</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slider-dots" id="sliderDots">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="registrationPage" class="registration-page">
+        <div class="container registration-container">
+            <div class="registration-header">
+                <h1>Присоединяйтесь к CineRate</h1>
+                <p>Создайте аккаунт, чтобы сохранять любимые фильмы, писать отзывы и получать персональные рекомендации</p>
+            </div>
+            
+            <div class="registration-form">
+                <h2>Регистрация</h2>
+                <form id="registrationForm" onsubmit="handleRegistration(event)">
+                    <div class="form-group">
+                        <label for="fullName">ФИО</label>
+                        <input type="text" id="fullName" placeholder="Введите ваше полное имя" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="example@mail.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input type="password" id="password" placeholder="Не менее 8 символов" required minlength="8">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Подтвердите пароль</label>
+                        <input type="password" id="confirmPassword" placeholder="Повторите пароль" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="birthdate">Дата рождения</label>
+                        <input type="date" id="birthdate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="country">Страна</label>
+                        <select id="country" required>
+                            <option value="">Выберите страну</option>
+                            <option value="ru">Россия</option>
+                            <option value="by">Беларусь</option>
+                            <option value="kz">Казахстан</option>
+                            <option value="ua">Украина</option>
+                            <option value="other">Другая</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="favoriteGenres">Любимые жанры</label>
+                        <textarea id="favoriteGenres" placeholder="Напишите ваши любимые жанры кино..."></textarea>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">Я соглашаюсь с <a onclick="show404Page()">условиями использования</a> и <a onclick="show404Page()">политикой конфиденциальности</a></label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="newsletter">
+                        <label for="newsletter">Подписаться на еженедельную рассылку с новинками кино и рекомендациями</label>
+                    </div>
+                    
+                    <button type="submit" class="btn form-submit">Создать аккаунт</button>
+                    
+                    <div class="form-note">
+                        Уже есть аккаунт? <a onclick="show404Page()">Войти</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="interstellarPage" class="movie-page">
+        <div class="container">
+            <button class="back-btn" onclick="showMainPage()">
+                <i class="fas fa-arrow-left"></i> Назад к фильмам
+            </button>
+            
+            <div class="movie-header">
+                <div class="movie-poster">
+                    <img src="https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg" alt="Интерстеллар">
+                </div>
+                <div class="movie-info">
+                    <h1>Интерстеллар</h1>
+                    <div class="movie-meta">
+                        <span class="meta-item">2014</span>
+                        <span class="meta-item">169 мин</span>
+                        <span class="meta-item">Фантастика, Драма</span>
+                        <span class="meta-item">Кристофер Нолан</span>
+                    </div>
+                    <div class="movie-description">
+                        <p>Фильм рассказывает о путешествиях группы исследователей, которые используют недавно обнаруженный пространственно-временной тоннель, чтобы обойти ограничения полёта человека в космосе и покорить огромные расстояния на межзвёздном корабле.</p>
+                        <p>Сценарий был написан Джонатаном и Кристофером Ноланом. Идея фильма основана на научных работах Кипа Торна.</p>
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <span>Рейтинг: 8.6/10</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="movie-review">
+                <h2>Отзыв</h2>
+                <div class="single-review-item">
+                    <div class="review-header">
+                        <div class="review-author">Алексей Петров</div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <span>9.5/10</span>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>Интерстеллар — это не просто фильм, это целое событие в мире кинематографа. Нолан снова доказал, что он мастер масштабных полотен. Особенно поражает визуальная составляющая: черные дыры, другие планеты, пространственно-временные парадоксы — все это выглядит невероятно реалистично.</p>
+                        <p>Но помимо спецэффектов, фильм имеет глубочайший эмоциональный подтекст. История отца и дочери, разлученных пространством и временем, заставляет задуматься о самых важных вещах в жизни. Игра Мэттью Макконахи и Энн Хэтэуй просто великолепна.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="intouchablesPage" class="movie-page">
+        <div class="container">
+            <button class="back-btn" onclick="showMainPage()">
+                <i class="fas fa-arrow-left"></i> Назад к фильмам
+            </button>
+            
+            <div class="movie-header">
+                <div class="movie-poster">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMTYxNDA3MDQwNl5BMl5BanBnXkFtZTcwNTU4Mzc1Nw@@._V1_.jpg" alt="1+1">
+                </div>
+                <div class="movie-info">
+                    <h1>1+1</h1>
+                    <div class="movie-meta">
+                        <span class="meta-item">2011</span>
+                        <span class="meta-item">112 мин</span>
+                        <span class="meta-item">Драма, Комедия</span>
+                        <span class="meta-item">Оливье Накаш</span>
+                    </div>
+                    <div class="movie-description">
+                        <p>Пострадав в результате несчастного случая, богатый аристократ Филипп нанимает в помощники человека, который менее всего подходит для этой работы — молодого жителя предместья Дрисса, только что освободившегося из тюрьмы.</p>
+                        <p>Несмотря на то, что Филипп прикован к инвалидному креслу, Дриссу удается привнести в размеренную жизнь аристократа дух приключений.</p>
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <span>Рейтинг: 8.5/10</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="movie-review">
+                <h2>Отзыв</h2>
+                <div class="single-review-item">
+                    <div class="review-header">
+                        <div class="review-author">Мария Смирнова</div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <span>9.0/10</span>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>Этот фильм — настоящее лекарство от плохого настроения и цинизма. История невероятной дружбы двух абсолютно разных людей заставляет и смеяться, и плакать, и задуматься о том, что такое настоящая человечность.</p>
+                        <p>Актерская игра просто безупречна. Франсуа Клюзе и Омар Си создали незабываемые образы. Каждая сцена продумана до мелочей, диалоги блестящие, юумор тонкий и интеллигентный.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="errorPage" class="error-page">
+        <div class="container">
+            <div class="error-content">
+                <div class="error-code">404</div>
+                <h2 class="error-title">Страница не найдена</h2>
+                <p class="error-message">К сожалению, запрашиваемая страница находится в разработке или не существует. Возможно, вы перешли по устаревшей ссылке или ввели неверный адрес.</p>
+                <div class="error-actions">
+                    <button class="btn" onclick="showMainPage()">
+                        <i class="fas fa-home"></i> На главную
+                    </button>
+                    <button class="btn btn-secondary" onclick="showRegistrationPage()">
+                        <i class="fas fa-user-plus"></i> Регистрация
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>CineRate</h4>
+                    <ul class="footer-links">
+                        <li><a onclick="showMainPage()">Главная</a></li>
+                        <li><a onclick="show404Page()">Фильмы</a></li>
+                        <li><a onclick="show404Page()">Сериалы</a></li>
+                        <li><a onclick="show404Page()">Топ-100</a></li>
+                        <li><a onclick="show404Page()">Новинки</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Сообщество</h4>
+                    <ul class="footer-links">
+                        <li><a onclick="show404Page()">Обсуждения</a></li>
+                        <li><a onclick="show404Page()">Рецензии</a></li>
+                        <li><a onclick="show404Page()">Киноклубы</a></li>
+                        <li><a onclick="show404Page()">Конкурсы</a></li>
+                        <li><a onclick="show404Page()">Блог</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Информация</h4>
+                    <ul class="footer-links">
+                        <li><a onclick="show404Page()">О проекте</a></li>
+                        <li><a onclick="show404Page()">Правила</a></li>
+                        <li><a onclick="show404Page()">Помощь</a></li>
+                        <li><a onclick="show404Page()">Контакты</a></li>
+                        <li><a onclick="show404Page()">Вакансии</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Подписывайтесь</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">Будьте в курсе новостей кино и обновлений платформы</p>
+                    <div class="social-links">
+                        <a onclick="show404Page()"><i class="fab fa-vk"></i></a>
+                        <a onclick="show404Page()"><i class="fab fa-telegram"></i></a>
+                        <a onclick="show404Page()"><i class="fab fa-youtube"></i></a>
+                        <a onclick="show404Page()"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                © 2025 CineRate. Минималистичная платформа для настоящих киноманов. Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const track = document.getElementById('reviewsTrack');
+            const cards = document.querySelectorAll('.review-card');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const dotsContainer = document.getElementById('sliderDots');
+            
+            let currentPosition = 0;
+            const cardsPerView = window.innerWidth < 768 ? 1 : window.innerWidth < 992 ? 2 : 3;
+            const totalSlides = Math.ceil(cards.length / cardsPerView);
+            const cardWidth = cards[0].offsetWidth + 30; 
+            
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('slider-dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    goToSlide(i);
+                });
+                dotsContainer.appendChild(dot);
+            }
+            
+            function updateSlider() {
+                track.style.transform = `translateX(-${currentPosition * cardWidth * cardsPerView}px)`;
+                
+                document.querySelectorAll('.slider-dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentPosition);
+                });
+                
+                prevBtn.disabled = currentPosition === 0;
+                nextBtn.disabled = currentPosition >= totalSlides - 1;
+                
+                prevBtn.style.opacity = currentPosition === 0 ? '0.5' : '1';
+                prevBtn.style.cursor = currentPosition === 0 ? 'not-allowed' : 'pointer';
+                nextBtn.style.opacity = currentPosition >= totalSlides - 1 ? '0.5' : '1';
+                nextBtn.style.cursor = currentPosition >= totalSlides - 1 ? 'not-allowed' : 'pointer';
+            }
+            
+            function goToSlide(slideIndex) {
+                currentPosition = slideIndex;
+                updateSlider();
+            }
+            
+            function nextSlide() {
+                if (currentPosition < totalSlides - 1) {
+                    currentPosition++;
+                    updateSlider();
+                }
+            }
+            
+            function prevSlide() {
+                if (currentPosition > 0) {
+                    currentPosition--;
+                    updateSlider();
+                }
+            }
+            
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            let autoSlideInterval = setInterval(nextSlide, 5000);
+            
+            track.addEventListener('mouseenter', () => {
+                clearInterval(autoSlideInterval);
+            });
+            
+            track.addEventListener('mouseleave', () => {
+                autoSlideInterval = setInterval(nextSlide, 5000);
+            });
+            
+            let startX = 0;
+            let isDragging = false;
+            
+            track.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+                clearInterval(autoSlideInterval);
+            });
+            
+            track.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const currentX = e.touches[0].clientX;
+                const diff = startX - currentX;
+                
+                track.style.transform = `translateX(-${currentPosition * cardWidth * cardsPerView + diff}px)`;
+            });
+            
+            track.addEventListener('touchend', (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                
+                const endX = e.changedTouches[0].clientX;
+                const diff = startX - endX;
+                
+                if (Math.abs(diff) > 50) { 
+                    if (diff > 0 && currentPosition < totalSlides - 1) {
+                        nextSlide();
+                    } else if (diff < 0 && currentPosition > 0) {
+                        prevSlide();
+                    } else {
+                        updateSlider(); 
+                    }
+                } else {
+                    updateSlider(); 
+                }
+                
+                autoSlideInterval = setInterval(nextSlide, 5000);
+            });
+            
+            window.addEventListener('resize', () => {
+                const newCardsPerView = window.innerWidth < 768 ? 1 : window.innerWidth < 992 ? 2 : 3;
+                if (newCardsPerView !== cardsPerView) {
+                    location.reload(); 
+                }
+            });
+            
+            updateSlider();
+        });
+        
+        function handleRegistration(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Пароли не совпадают!');
+                return;
+            }
+            
+            alert('Регистрация успешно завершена! Добро пожаловать в CineRate!');
+            showMainPage();
+            
+            document.getElementById('registrationForm').reset();
+        }
+        
+        function showMainPage() {
+            document.getElementById('mainPage').style.display = 'block';
+            document.getElementById('errorPage').classList.remove('active');
+            document.getElementById('registrationPage').classList.remove('active');
+            
+            document.querySelectorAll('.movie-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            window.scrollTo(0, 0);
+        }
+        
+        function showMoviePage(movieId) {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('errorPage').classList.remove('active');
+            document.getElementById('registrationPage').classList.remove('active');
+            
+            document.querySelectorAll('.movie-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.getElementById(movieId + 'Page').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+        
+        function show404Page() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('registrationPage').classList.remove('active');
+            document.querySelectorAll('.movie-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.getElementById('errorPage').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+        
+        function showRegistrationPage() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('errorPage').classList.remove('active');
+            document.querySelectorAll('.movie-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.getElementById('registrationPage').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+        
+        showMainPage();
+    </script>
+</body>
+</html>
