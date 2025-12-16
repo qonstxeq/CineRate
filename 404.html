@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница не найдена | CineRate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --gray: #2a2a2a;
+            --light-gray: #3a3a3a;
+            --white: #f0f0f0;
+            --accent: #4a9eff;
+            --accent-dark: #2a5fa3;
+            --text-secondary: #b0b0b0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--light-gray);
+            color: var(--text-secondary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--light-gray);
+            color: var(--white);
+        }
+        
+        header {
+            background-color: var(--dark-gray);
+            padding: 20px 0;
+            border-bottom: 1px solid var(--light-gray);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.8rem;
+            color: var(--white);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            font-weight: 500;
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            padding: 5px 0;
+            cursor: pointer;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .error-page {
+            padding: 100px 0;
+            text-align: center;
+            flex: 1;
+            background: var(--black);
+        }
+        
+        .error-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px;
+            background: var(--dark-gray);
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .error-code {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 6rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .error-title {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .error-message {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+        
+        .error-actions .btn {
+            min-width: 180px;
+        }
+        
+        .movie-clapper {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 30px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        footer {
+            background-color: var(--dark-gray);
+            padding: 50px 0 25px;
+            border-top: 1px solid var(--light-gray);
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h4 {
+            font-family: 'Roboto Mono', monospace;
+            color: var(--white);
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--light-gray);
+            border-radius: 50%;
+            color: var(--white);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid var(--light-gray);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .error-code {
+                font-size: 5rem;
+            }
+            
+            .error-title {
+                font-size: 1.8rem;
+            }
+            
+            .error-content {
+                padding: 40px 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.6rem;
+            }
+            
+            .error-code {
+                font-size: 4rem;
+            }
+            
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .error-actions .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+                CineRate
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="index.html">Фильмы</a></li>
+                <li><a href="index.html">Сериалы</a></li>
+                <li><a href="index.html">Рейтинги</a></li>
+                <li><a href="index.html" class="btn btn-secondary" style="padding: 8px 20px; font-size: 0.95rem;">
+                    <i class="fas fa-user-plus"></i> Регистрация
+                </a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="error-page">
+        <div class="container">
+            <div class="error-content">
+                <div class="movie-clapper">
+                    <i class="fas fa-film"></i>
+                </div>
+                <div class="error-code">404</div>
+                <h2 class="error-title">Кадр не найден</h2>
+                <p class="error-message">Запрашиваемая страница находится в разработке или не существует. Возможно, вы перешли по устаревшей ссылке или ввели неверный адрес. Возвращайтесь к нашему кинорепертуару!</p>
+                <div class="error-actions">
+                    <a href="index.html" class="btn">
+                        <i class="fas fa-home"></i> На главную
+                    </a>
+                    <a href="index.html" class="btn btn-secondary">
+                        <i class="fas fa-user-plus"></i> Регистрация
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>CineRate</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="index.html">Фильмы</a></li>
+                        <li><a href="index.html">Сериалы</a></li>
+                        <li><a href="index.html">Топ-100</a></li>
+                        <li><a href="index.html">Новинки</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Сообщество</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Обсуждения</a></li>
+                        <li><a href="index.html">Рецензии</a></li>
+                        <li><a href="index.html">Киноклубы</a></li>
+                        <li><a href="index.html">Конкурсы</a></li>
+                        <li><a href="index.html">Блог</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Информация</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">О проекте</a></li>
+                        <li><a href="index.html">Правила</a></li>
+                        <li><a href="index.html">Помощь</a></li>
+                        <li><a href="index.html">Контакты</a></li>
+                        <li><a href="index.html">Вакансии</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Подписывайтесь</h4>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">Будьте в курсе новостей кино и обновлений платформы</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                © 2025 CineRate. Минималистичная платформа для настоящих киноманов. Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Страница 404 загружена');
+        });
+    </script>
+</body>
+</html>
